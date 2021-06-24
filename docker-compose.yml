@@ -1,0 +1,10 @@
+version: "3.7"
+services:
+    bots_online:
+        container_name: bots-online
+        ports:
+            - "8080:8080"
+        build:
+            context: .
+        environment:
+            - JDA_TOKEN=

@@ -29,7 +29,7 @@ import me.duncte123.botsonline.discord.statusMap
 import net.dv8tion.jda.api.OnlineStatus
 
 fun startServer() {
-    embeddedServer(Netty, port = 8080, host = "127.0.0.1") {
+    embeddedServer(Netty, port = 8080, host = "0.0.0.0") {
         routing {
             get("/") {
                 call.respondText("Hello world", status = HttpStatusCode.OK)
