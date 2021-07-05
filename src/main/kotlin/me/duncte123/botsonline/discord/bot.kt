@@ -34,9 +34,13 @@ val botsToCache = mapOf(
     210363111729790977L to 191245668617158656L,
     397297702150602752L to 580687843232317440L
 )
-val statusMap: TLongObjectMap<OnlineStatus> = TSynchronizedLongObjectMap(TLongObjectHashMap(), Object())
+val statusMap: TLongObjectMap<BotOnlineStatus> = TSynchronizedLongObjectMap(TLongObjectHashMap(), Object())
 
 fun startBot() {
+    botsToCache.keys.forEach {
+        statusMap.put(it, BotOnlineStatus(it, OnlineStatus.OFFLINE))
+    }
+
     jda = JDABuilder.createLight(
         System.getenv("JDA_TOKEN"),
         GatewayIntent.GUILD_MEMBERS,

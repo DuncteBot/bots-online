@@ -26,7 +26,6 @@ import io.ktor.routing.routing
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 import me.duncte123.botsonline.discord.statusMap
-import net.dv8tion.jda.api.OnlineStatus
 
 fun startServer() {
     embeddedServer(Netty, port = 8080, host = "0.0.0.0") {
@@ -35,15 +34,32 @@ fun startServer() {
                 call.respondText("Hello world", status = HttpStatusCode.OK)
             }
 
+            get("/overview") {
+                val items = statusMap.values().joinToString(",")
+
+                call.respondText(
+                    """[$items]""",
+                    contentType = ContentType.parse("application/json"),
+                    status = HttpStatusCode.OK
+                )
+            }
+
             get("/online/{bot_id}") {
                 try {
                     val botId = call.parameters["bot_id"]!!.toLong()
+                    val status = statusMap[botId]
 
-                    val onlineStatus = statusMap[botId] ?: OnlineStatus.OFFLINE
-                    val isOnline = onlineStatus != OnlineStatus.OFFLINE
+                    if (status == null) {
+                        call.respondText(
+                            """{"error": "Bot not found"}""",
+                            contentType = ContentType.parse("application/json"),
+                            status = HttpStatusCode.NotFound
+                        )
+                        return@get
+                    }
 
                     call.respondText(
-                        """{"bot_id": "$botId", "online_status": "$onlineStatus", "is_online": $isOnline}""",
+                        status.toString(),
                         contentType = ContentType.parse("application/json"),
                         status = HttpStatusCode.OK
                     )

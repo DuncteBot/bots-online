@@ -37,7 +37,7 @@ class Listener : EventListener {
                 }
 
                 // Update the status
-                statusMap.put(botId, event.newOnlineStatus)
+                statusMap[botId].status =  event.newOnlineStatus
             }
             is GuildReadyEvent -> {
                 val guild = event.guild
@@ -52,7 +52,7 @@ class Listener : EventListener {
 
                         it.filter { m -> botsToCache.containsKey(m.idLong) }
                             .forEach { m ->
-                            statusMap.put(m.idLong, m.onlineStatus)
+                                statusMap[m.idLong].status =  m.onlineStatus
                         }
                     }
                     .onError {
