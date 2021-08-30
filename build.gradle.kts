@@ -19,7 +19,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "1.5.10"
+    kotlin("jvm") version "1.5.30"
     application
     id("com.github.johnrengelman.shadow") version "7.0.0"
 }
@@ -35,9 +35,9 @@ repositories {
 
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
-    implementation("io.ktor:ktor-server-netty:1.5.2")
+    implementation("io.ktor:ktor-server-netty:1.6.2")
 
-    implementation(group = "net.dv8tion", name = "JDA", version = "4.3.0_282") {
+    implementation(group = "net.dv8tion", name = "JDA", version = "4.3.0_313") {
         exclude(module = "opus-java")
     }
 

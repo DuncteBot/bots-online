@@ -1,4 +1,4 @@
-FROM adoptopenjdk:16-jdk-hotspot AS builder
+FROM azul/zulu-openjdk-alpine:16 AS builder
 
 WORKDIR /bots-online
 
@@ -8,7 +8,7 @@ RUN ./gradlew --no-daemon dependencies
 COPY . .
 RUN ./gradlew --no-daemon build
 
-FROM adoptopenjdk:16-jre-hotspot
+FROM azul/zulu-openjdk-alpine:16-jre
 
 WORKDIR /bots-online
 COPY --from=builder /bots-online/build/libs/bots-online-1.0-SNAPSHOT-all.jar ./bots-online.jar
